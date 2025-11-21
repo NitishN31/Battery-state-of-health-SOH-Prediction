@@ -83,7 +83,7 @@ XGBoost captures the overall degradation trend well using features like `avg_vol
 ### Model Comparison (Test Battery: B0005)
 Comparison of Actual SOH vs XGBoost and LSTM predictions.
 *(Run `src/compare_models.py` to generate this plot)*
-<!-- ![Model Comparison](notebooks/comparison_B0005.png) -->
+[Model Comparison](notebooks/comparison_B0005.png)
 
 ## 🛠️ Methodology
 
