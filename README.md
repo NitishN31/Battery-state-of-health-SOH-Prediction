@@ -80,6 +80,10 @@ Battery capacity fades over time (cycles). SOH is defined as $C_{current} / C_{n
 XGBoost captures the overall degradation trend well using features like `avg_voltage` and `discharge_time`.
 ![XGBoost Result](notebooks/xgboost_prediction_B0018.png)
 
+### LSTM Prediction (Test Battery: B0018)
+LSTM captures the overall degradation trend well using `cycle`.
+![LSTM Result](notebooks/lstm_prediction_B0018.png)
+
 ### Model Comparison (Test Battery: B0018)
 Comparison of Actual SOH vs XGBoost and LSTM predictions.
 ![Model Comparison](notebooks/comparison_B0018.png)
