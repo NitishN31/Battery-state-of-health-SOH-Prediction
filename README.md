@@ -105,6 +105,10 @@ Comparison of Actual SOH vs XGBoost and LSTM predictions.
 - **Time-Series Features (for LSTM)**:
     - Raw Voltage, Current, and Temperature curves resampled to 200 time steps.
 
+### Conclusion
+- XGBoost is currently the better model for this specific dataset and feature set.
+- LSTM shows promise but requires more data or hyperparameter tuning.
+
 ### Future Improvements
 - **Hybrid Models**: Combine CNN for feature extraction with LSTM.
 - **Data Augmentation**: Use GANs or add noise to raw curves to increase dataset size for Deep Learning.
