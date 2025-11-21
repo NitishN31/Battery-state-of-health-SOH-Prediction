@@ -13,12 +13,12 @@ def train_xgboost():
     csv_path = os.path.join(DATA_DIR, 'processed_summary.csv')
     df = pd.read_csv(csv_path)
     
-    # Define features and target
-    # We use 'cycle' as a feature too, as it's a strong predictor of aging
+    
+    # We use 'cycle' as a feature too, as it's a strong predictor of aging and define our target 'capacity'
     features = ['cycle', 'avg_voltage', 'min_voltage', 'max_temp', 'discharge_time', 'ambient_temperature']
     target = 'capacity' # We predict Capacity, then calculate SOH
     
-    # Leave-One-Group-Out Cross-Validation
+    
     # Test on B0018, Train on others
     test_battery = 'B0018'
     train_df = df[df['battery_id'] != test_battery]
@@ -33,7 +33,7 @@ def train_xgboost():
     print(f"Testing on {test_battery}")
     
     # Initialize and train XGBoost
-    model = xgb.XGBRegressor(objective='reg:squarederror', n_estimators=100, learning_rate=0.1, max_depth=5)
+    model = xgb.XGBRegressor(objective='reg:squarederror', n_estimators=500, learning_rate=0.1, max_depth=3)
     model.fit(X_train, y_train)
     
     # Predictions
@@ -48,12 +48,12 @@ def train_xgboost():
     print(f"MAE: {mae:.4f}")
     print(f"R2 Score: {r2:.4f}")
     
-    # Calculate SOH (Nominal Capacity = 2.0Ah)
+    # Calculate SOH (orginal capacity = 2.0Ah)
     NOMINAL_CAPACITY = 2.0
     y_test_soh = y_test / NOMINAL_CAPACITY
     y_pred_soh = y_pred / NOMINAL_CAPACITY
     
-    # Plotting
+    # Plotting SOH degradation prediction graph
     plt.figure(figsize=(12, 6))
     plt.plot(test_df['cycle'], y_test_soh, label='Actual SOH', color='blue')
     plt.plot(test_df['cycle'], y_pred_soh, label='Predicted SOH', color='red', linestyle='--')
@@ -65,7 +65,7 @@ def train_xgboost():
     plt.savefig(os.path.join(PLOTS_DIR, f'xgboost_prediction_{test_battery}.png'))
     print(f"Saved prediction plot to {PLOTS_DIR}")
     
-    # Feature Importance
+    # Feature Importance plot
     plt.figure(figsize=(10, 6))
     xgb.plot_importance(model, max_num_features=10)
     plt.title('XGBoost Feature Importance')
