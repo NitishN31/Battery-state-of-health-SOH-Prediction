@@ -9,7 +9,7 @@ This project implements a machine learning pipeline to estimate the State of Hea
 | Model | RMSE | R² Score |
 |-------|------|----------|
 | **XGBoost** | **0.0835** | **0.7073** |
-| LSTM | 0.1041 | 0.5448 |
+| LSTM | 0.0763 | 0.7552 |
 
 *Note: XGBoost currently outperforms LSTM on this small dataset (~600 cycles). LSTM requires more data to generalize effectively.*
 
