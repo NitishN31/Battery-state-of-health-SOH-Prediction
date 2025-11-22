@@ -107,16 +107,6 @@ class LSTMModel(nn.Module):
         out = self.fc(out)
         return out
 
-# Redefine compare_models to use the local BatteryDataset if needed, 
-# but since we import it, we need to patch it or just copy the class here.
-# Actually, compare_models imports BatteryDataset from train_lstm.
-# So I should edit train_lstm.py if I want to change BatteryDataset?
-# OR I can define a local BatteryDataset in compare_models.py and use that.
-# The previous tool call edited compare_models.py but I didn't see the class definition there.
-# Ah, compare_models.py IMPORTS BatteryDataset.
-# So I should have edited train_lstm.py OR redefined it in compare_models.py.
-# Let's redefine it in compare_models.py to be safe and self-contained.
-
 
 def train_lstm():
     print("Loading data...")
@@ -135,9 +125,9 @@ def train_lstm():
     
     model = LSTMModel().to(device)
     criterion = nn.MSELoss()
-    optimizer = optim.Adam(model.parameters(), lr=0.001)
+    optimizer = optim.Adam(model.parameters(), lr=0.0001, weight_decay=1e-5)
     
-    epochs = 50
+    epochs = 100
     train_losses = []
     
     print("Starting training...")
@@ -184,9 +174,6 @@ def train_lstm():
     # Plotting
     NOMINAL_CAPACITY = 2.0
     plt.figure(figsize=(12, 6))
-    # We need cycle numbers for x-axis. 
-    # The test_dataset.data dataframe has them, but we need to make sure order is preserved.
-    # DataLoader with shuffle=False preserves order.
     cycles = test_dataset.data['cycle'].values
     
     plt.plot(cycles, actuals / NOMINAL_CAPACITY, label='Actual SOH', color='blue')
